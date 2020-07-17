@@ -1,0 +1,29 @@
+/* Test class --LeadBatchJobTest with 100% code coverage*/
+@isTest
+public class LeadBatchJobTest {
+    static testMethod void testMethod1()
+    {
+        List<Lead> lstLead= new List<Lead>();
+        for(Integer i=0 ;i <200;i++)
+        {
+            Lead ld = new Lead();
+            ld.LastName = 'name'+i;
+            ld.Company = 'ARG';
+            ld.LeadSource ='abc';
+            ld.Country ='USA';
+            ld.City ='New York';
+            ld.Rating ='Warm';
+            lstLead.add(ld);
+        }
+        
+        insert lstLead;
+        
+        Test.startTest();
+        
+        LeadBatchJob obj = new LeadBatchJob();
+        DataBase.executeBatch(obj);
+        
+        Test.stopTest();
+    }
+    
+}
