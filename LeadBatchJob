@@ -1,0 +1,26 @@
+/*Apex class Name LeadBatchJob*/
+global class LeadBatchJob implements Database.Batchable<sObject> {
+    global Integer count = 0;
+    global Database.QueryLocator start(Database.BatchableContext BC)
+    {
+        String query ='SELECT ID,Name,LeadSource,Rating,Country,City FROM Lead Where Country =\'USA\' AND City =\'New York\'';
+      	return Database.getQueryLocator(query);
+    }
+    
+    global void execute(Database.BatchableContext BC, List<Lead> scope)
+    {	 List<Lead> lstLead = new List<Lead>();    
+        for(Lead l : scope)
+        {
+            l.LeadSource ='Web';
+            l.Rating ='Hot';
+            lstLead.add(l);
+            count+=1;
+        }
+        update scope;
+    }
+    global void finish(Database.BatchableContext BC) {
+      system.debug('count = '+count);
+    }   
+     
+    
+}
